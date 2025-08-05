@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador Apex - Gestor de Campañas</title>
+    <!-- ¡CORREGIDO! Referencia ABSOLUTA CORRECTA a tu CSS -->
+    <link rel="stylesheet" href="/static/courses/tools/xim_apex.css">
+    <!-- Font Awesome para los iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container-full">
+        <!-- Contenedor para mensajes personalizados -->
+        <div id="custom-message-box" class="custom-message-box"></div>
+
+        <!-- Pantalla de Login -->
+        <div id="login-screen" class="screen active">
+            <div class="logo-container">
+				<img src="https://cdn.evaluar.com/jobboards/prod/wp-content/uploads/jobboards/sites/514/2023/06/20220250/logo2.png" alt="Logo de Claro" class="claro-logo">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/0/0c/Claro.svg" alt="Logo de Claro" class="claro-logo">
+            </div>
+            <h2>Gestor de Campañas</h2>
+            <form id="loginForm">
+                <div class="input-group-icon">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="username" name="username" placeholder="Usuario">
+                </div>
+                <div class="input-group-icon">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="password" name="password" placeholder="Contraseña">
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="remember-username" name="remember-username">
+                    <label for="remember-username">Recordar usuario</label>
+                </div>
+                <button type="submit">Sign In</button>
+                <p id="error-message" class="error-message"></p>
+            </form>
+        </div>
+
+        <!-- Pantalla del Menú Principal (Home y Busca Cliente) -->
+        <div id="main-menu-screen" class="screen">
+            <header class="header">
+                <span>Gestor de Campañas - Formacion A365</span>
+                <div class="user-info">
+                    <i class="fas fa-user-circle"></i>
+                    <span id="loggedInUser">Wjimenez</span>
+                    <i class="fas fa-caret-down" style="margin-left: 5px;"></i>
+                </div>
+            </header>
+            <nav class="navbar">
+                <ul>
+                    <li><a href="#" class="nav-link active" data-target="home-content">Home</a></li>
+                    <li><a href="#" class="nav-link" data-target="search-client-content">Busca Cliente</a></li>
+                </ul>
+            </nav>
+            <div class="content-area">
+                <!-- Contenido dinámico para las pestañas -->
+                <div id="home-content" class="tab-content active">
+                    <h1 class="main-title"><img src="https://upload.wikimedia.org/wikipedia/commons/0/0c/Claro.svg" alt="Logo de Claro" class="claro-logo-main"> Gestor de Campañas 	<img src="https://cdn.evaluar.com/jobboards/prod/wp-content/uploads/jobboards/sites/514/2023/06/20220250/logo2.png" alt="Logo de A365" class="A365-logo-main"></h1>
+                    <p class="welcome-message">BIENVENIDO AL SIMULADOR DE APEX A365</p> 
+
+                    <!-- Nueva sección para Oportunidades Generadas -->
+                    <div class="panel opportunities-generated-panel">
+                        <h3>Oportunidades Generadas</h3>
+                        <div class="data-table">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Campaña</th>
+                                        <th>Estado</th>
+                                        <th>Fecha Creación</th>
+                                        <th>Asesor</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="oportunidadesTableBody">
+                                    <!-- Las oportunidades se añadirán aquí dinámicamente -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contenido de Busca Cliente -->
+                <div id="search-client-content" class="tab-content">
+                    <div class="panel">
+                        <h3>Búsqueda</h3>
+                        <div class="search-controls">
+                            <div class="input-group-icon search-input">
+                                <i class="fas fa-search"></i>
+                                <input type="text" id="searchInput" placeholder="Buscar por Teléfono o DNI">
+                            </div>
+                            <button id="searchButton" class="search-button">Buscar</button>
+                        </div>
+                    </div>
+
+                    <div class="panel client-info-panel">
+                        <h3>Cliente</h3>
+                        <div class="client-details-grid">
+                            <div class="info-box">
+                                <h4>Información del Cliente</h4>
+                                <p><strong>Nombre:</strong> <span id="clientName"></span></p>
+                                <p><strong>Tipo de Documento:</strong> <span id="clientDocType"></span></p>
+                                <p><strong>Nro de Documento:</strong> <span id="clientDocNum"></span></p>
+                                <p><strong>Teléfono:</strong> <span id="clientPhone"></span></p>
+                                <p><strong>Correo:</strong> <span id="clientEmail"></span></p>
+                            </div>
+                            <div class="info-box">
+                                <h4>Resumen 360</h4>
+                                <p><strong>Perfil Trac:</strong> <span id="resumenTrac"></span></p>
+                                <p><strong>Claro Puntos:</strong> <span id="resumenClaroPuntos"></span></p>
+                                <p><strong>Segmento:</strong> <span id="resumenSegmento"></span></p>
+                                <p><strong>Observado:</strong> <span id="resumenObservado"></span></p>
+                                <p><strong>Mi Claro:</strong> <span id="resumenMiClaro"></span></p>
+                            </div>
+                            <div class="info-box">
+                                <h4>Información para Ventas</h4>
+                                <p><strong>Líneas:</strong> <span id="ventasLineas"></span></p>
+                                <p><strong>Plan:</strong> <span id="ventasPlan"></span></p>
+                            </div>
+                            <div class="info-box">
+                                <h4>Información para Experiencia</h4>
+                                <p><strong>Feliz Cumpleaños:</strong> <span id="experienciaCumpleanios"></span></p>
+                                <p><strong>Puntos Claro por vencer:</strong> <span id="experienciaPuntosVencer"></span></p>
+                                <p><strong>Pago Vencido:</strong> <span id="experienciaPagoVencido"></span></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="action-buttons-bottom">
+                         <button class="btn btn-red-outline" id="nuevoClienteBtn"><i class="fas fa-user-plus"></i> Nuevo Cliente</button>
+                         <button class="btn btn-red-outline" id="generarOportunidadBtn"><i class="fas fa-file-alt"></i> Generar Oportunidad Móvil Contactados Postpago</button>
+                    </div>
+
+                    <div class="panel contactabilidad-panel">
+                        <h3>Oportunidades</h3>
+                        <div class="oportunidades-content">
+                            <div class="datos-llamada">
+                                <p>"Bienvenido soy Wjimenez de gestiones especiales, por tu seguridad
+                                    realizaremos la validación de titularidad y consta de 3 preguntas, me
+                                    confirma su numero de DNI por favor"</p>
+                                <div class="llamada-inputs">
+                                    <div class="input-group">
+                                        <label for="numeroOrigenLlamada">Número origen llamada:</label>
+                                        <input type="text" id="numeroOrigenLlamada">
+                                    </div>
+                                    <div class="input-group">
+                                        <label for="serialNumber">Serial Number:</label>
+                                        <input type="text" id="serialNumber">
+                                    </div>
+                                </div>
+                                <button class="btn btn-red-solid" id="guardarContactabilidadBtn"><i class="fas fa-save"></i> Guardar Contactabilidad</button>
+                            </div>
+                        </div>
+                    </div>
+                    <p id="contactabilidad-message" class="success-message"></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pantalla de Nuevo Cliente (modal) -->
+        <div id="new-client-modal" class="modal">
+            <div class="modal-content">
+                <span class="close-button">&times;</span>
+                <h3>Nuevo Cliente</h3>
+                <div class="modal-body">
+                    <p>Ingrese el nuevo Cliente</p>
+                    <form id="newClientForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="newClientName">Nombre :</label>
+                                <input type="text" id="newClientName" placeholder="Ingrese el nombre ...">
+                            </div>
+                            <div class="form-group">
+                                <label for="newClientSecondName">Segundo Nombre :</label>
+                                <input type="text" id="newClientSecondName" placeholder="Ingrese el nombre ...">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="newClientLastName">Apellidos :</label>
+                                <input type="text" id="newClientLastName" placeholder="Ingrese el nombre ...">
+                            </div>
+                            <div class="form-group">
+                                <label for="newClientEmail">Email :</label>
+                                <input type="email" id="newClientEmail" placeholder="Ingrese el correo ...">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="newClientPhone">Teléfono :</label>
+                                <input type="text" id="newClientPhone" placeholder="Ingrese el teléfono..." maxlength="9">
+                            </div>
+                            <div class="form-group">
+                                <label for="newClientDocNumber">Nro Documento :</label>
+                                <input type="text" id="newClientDocNumber" placeholder="Ingrese el número de documento..." maxlength="8">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="newClientDocType">Tipo de Documento :</label>
+                                <select id="newClientDocType">
+                                    <option value="">--select--</option>
+                                    <option value="DNI">DNI</option>
+                                    <option value="CE">Carnet de Extranjería</option>
+                                    <option value="PASSPORT">Pasaporte</option>
+                                </select>
+                            </div>
+                        </div>
+                        <p id="newClientErrorMessage" class="error-message"></p>
+                        <button type="submit" class="btn btn-blue-solid">Crear Cliente</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Pantalla de Generar Nueva Oportunidad (modal) -->
+        <div id="generar-oportunidad-modal" class="modal">
+            <div class="modal-content modal-content-lg">
+                <span class="close-button">&times;</span>
+                <h3>Retención Móvil Preventiva Postpago</h3>
+                <div class="modal-body modal-scrollable-content">
+                    <div class="opportunity-section">
+                        <h4>Datos del Cliente</h4>
+                        <div class="details-grid-2-col">
+                            <div>
+                                <p><strong>Nombre y Apellido:</strong> <span id="oppClientName"></span></p>
+                                <p><strong>Tipo de Documento:</strong> <span id="oppClientDocType"></span></p>
+                                <p><strong>Nro de Documento:</strong> <span id="oppClientDocNum"></span></p>
+                                <p><strong>Teléfono Móvil Principal:</strong> <span id="oppClientPhone"></span></p>
+                                <p><strong>Correo Electrónico Principal:</strong> <span id="oppClientEmail"></span></p>
+                                <p><strong>Correo Electrónico Secundario:</strong> <span id="oppClientEmailSec"></span></p>
+                                <p><strong>Género:</strong> <span id="oppClientGender"></span></p>
+                                <p><strong>Fecha Nacimiento:</strong> <span id="oppClientBirthDate"></span></p>
+                                <p><strong>Representante Legal:</strong> <span id="oppClientLegalRep"></span></p>
+                            </div>
+                            <div>
+                                <h4>Datos Servicio</h4>
+                                <p><strong>Customer ID:</strong> <span id="oppServiceCustomerId"></span></p>
+                                <p><strong>Contrato:</strong> <span id="oppServiceContract"></span></p>
+                                <p><strong>Plan Actual:</strong> <span id="oppServiceCurrentPlan"></span></p>
+                                <p><strong>Fecha Activación:</strong> <span id="oppServiceActivationDate"></span></p>
+                                <p><strong>Ciclo de Facturación:</strong> <span id="oppServiceBillingCycle"></span></p>
+                                <p><strong>IMR:</strong> <span id="oppServiceImr"></span></p>
+                                <p><strong>Comportamiento Consolidado:</strong> <span id="oppServiceConsolidatedBehavior"></span></p>
+                                <p><strong>¿Tiene consulta previa?:</strong> <span id="oppServicePreviousQuery"></span></p>
+                                <p><strong>¿Tiene Ajuste?:</strong> <span id="oppServiceHasAdjustment"></span></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="opportunity-section">
+                        <h4>Diagnóstico</h4>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="diagTipoSolicitud">Tipo De Solicitud</label>
+                                <select id="diagTipoSolicitud" disabled> <!-- Modificado: disabled y una sola opción -->
+                                    <option value="PORT OUT">PORT OUT</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="diagSubMotivo1">Sub Motivo de Cancelación 1</label>
+                                <select id="diagSubMotivo1">
+                                    <option value="">--select--</option>
+                                    <!-- Options populated by JS -->
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="diagMotivoCancelacion">Motivo de Cancelación</label>
+                                <select id="diagMotivoCancelacion">
+                                    <option value="">--select--</option>
+                                    <!-- Options populated by JS -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="diagSubMotivo2">Sub Motivo de Cancelación 2</label>
+                                <select id="diagSubMotivo2">
+                                    <option value="">--select--</option>
+                                    <!-- Options populated by JS -->
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+							<div class="form-group">
+                                <label for="diagSubMotivo0">Sub Motivo de Cancelación</label>
+                                <select id="diagSubMotivo0">
+                                    <option value="">--select--</option>
+                                    <!-- Options populated by JS -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="diagSubMotivo3">Sub Motivo de Cancelación 3</label>
+                                <select id="diagSubMotivo3">
+                                    <option value="">--select--</option>
+                                    <!-- Options populated by JS -->
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="opportunity-section">
+                        <h4>Oferta de la Competencia</h4>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="ofertaCompetencia">Oferta Competencia</label>
+                                <select id="ofertaCompetencia">
+                                    <option value="">--select--</option>
+                                    <!-- Options populated by JS -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="ofertaCFPlanCompetencia">CF Plan Competencia</label>
+                                <select id="ofertaCFPlanCompetencia">
+                                    <option value="">--select--</option>
+                                    <!-- Options populated by JS -->
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="ofertaMedioComunicacion">Medio Comunicación de la Oferta</label>
+                                <select id="ofertaMedioComunicacion">
+                                    <option value="">--select--</option>
+                                    <!-- Options populated by JS -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="telefonoAGestionar">Teléfono a Gestionar:</label>
+                                <input type="text" id="telefonoAGestionar" placeholder="Ingrese el teléfono..." maxlength="9">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="ofertaOperador">Operador</label>
+                                <select id="ofertaOperador">
+                                    <option value="">--select--</option>
+                                    <!-- Options populated by JS -->
+                                </select>
+                            </div>
+                             <div class="form-group">
+                                <label for="lineaAdicional">Línea adicional :</label>
+                                <input type="text" id="lineaAdicional" placeholder="Ingrese la línea adicional..." maxlength="9">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="ofertaAceptacionPublicitaria">Aceptación Publicitaria</label>
+                                <select id="ofertaAceptacionPublicitaria">
+                                    <option value="">--select--</option>
+                                    <!-- Options populated by JS -->
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="opportunity-section">
+                        <h4>Despacho / Instalación</h4>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="despachoTipoDespacho">Tipo de Despacho</label>
+                                <select id="despachoTipoDespacho">
+                                    <option value="">--select--</option>
+                                    <!-- Options populated by JS -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="despachoCoordenadas">Coordenadas</label>
+                                <input type="text" id="despachoCoordenadas">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="despachoPuntoVenta">Punto de Venta</label>
+                                <select id="despachoPuntoVenta">
+                                    <option value="">--select--</option>
+                                    <!-- Options populated by JS -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="despachoFechaSolicitada">Fecha y hora solicitada por el cliente:</label>
+                                <input type="date" id="despachoFechaSolicitada">
+                                <input type="time" id="despachoHoraSolicitada" placeholder="HHMM (24 horas)">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="despachoUbigeo">Ubigeo</label>
+                                <input type="text" id="despachoUbigeo">
+                            </div>
+                            <div class="form-group">
+                                <label for="despachoFechaPrometida">Fecha prometida de entrega:</label>
+                                <input type="date" id="despachoFechaPrometida">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group full-width">
+                                <label for="despachoDireccionEntrega">Dirección Entrega/ Instalación</label>
+                                <textarea id="despachoDireccionEntrega" placeholder="Ingrese la dirección de entrega ..."></textarea>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group full-width">
+                                <label for="despachoReferenciaDireccion">Referencia dirección</label>
+                                <textarea id="despachoReferenciaDireccion" placeholder="Ingrese la dirección de referencia ..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="opportunity-section">
+                        <h4>Producto / Gestión de Pedido</h4>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="productoTipoOperacion">Tipo de Operación</label>
+                                <select id="productoTipoOperacion">
+                                    <option value="">--select--</option>
+                                    <!-- Options populated by JS -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="productoNumSecInicial">Número de SEC inicial</label>
+                                <input type="text" id="productoNumSecInicial" maxlength="18">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="opportunity-section">
+                        <h4>Acciones de Retención :</h4>
+                        <div class="data-table">
+                            <div class="table-controls">
+                                <button class="btn btn-dark-outline">Edit</button>
+                                <button class="btn btn-dark-outline" id="addRowBtn">Add Row</button>
+                            </div>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th></th>
+                                        <th>Acción</th>
+                                        <th>Detalle</th>
+                                        <th>Detalle2</th>
+                                        <th>Estado Final</th>
+                                        <th>Detalle Estado Final</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="accionesRetencionTableBody">
+                                    <!-- Filas se añadirán dinámicamente -->
+                                </tbody>
+                            </table>
+                            <p class="total-rows">Total <span id="totalRows">0</span> rows selected</p>
+                        </div>
+                        <div class="panel etapa-panel">
+                            <h4>Etapa</h4>
+                            <div class="form-group">
+                                <label for="etapa">Etapa:</label>
+                                <select id="etapa">
+                                    <option value="">--select--</option>
+                                    <!-- Options populated by JS -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="detalleEtapa">Detalle Etapa 1:</label>
+                                <select id="detalleEtapa">
+                                    <option value="">--select--</option>
+                                    <!-- Options populated by JS -->
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-red-solid" id="guardarOportunidadBtn">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ¡CORREGIDO! Referencia ABSOLUTA CORRECTA a tu JS -->
+    <script src="/static/courses/tools/xim_apex.js"></script>
+</body>
+</html>
