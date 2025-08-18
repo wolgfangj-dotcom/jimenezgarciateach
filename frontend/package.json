@@ -34,6 +34,7 @@
     ]
   },
   "devDependencies": {
+    "@types/jest": "^30.0.0",
     "@types/react": "^19.1.10",
     "@types/testing-library__react": "^10.0.1"
   }
