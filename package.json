@@ -1,5 +1,8 @@
 {
   "dependencies": {
-    "lucide-react": "^0.536.0"
+    "lucide-react": "^0.370.0"
+  },
+  "scripts": {
+    "build": "cd frontend && npm run build"
   }
 }
