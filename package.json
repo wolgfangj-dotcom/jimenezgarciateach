@@ -1,7 +1,8 @@
 {
-  "dependencies": {
-    "lucide-react": "^0.370.0"
-  },
+  "name": "jimenezgarciateach-root",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Configuración de scripts para el proyecto completo",
   "scripts": {
     "build": "cd frontend && npm run build"
   }
