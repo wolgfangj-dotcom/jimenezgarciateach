@@ -1,7 +1,3 @@
 [build]
-  # Directorio donde se encuentra el código de tu frontend
-  base = "frontend/"
-  # Comando para construir el frontend
-  command = "npm run build"
-  # Directorio donde se generan los archivos estáticos
+  base = "frontend"
   publish = "frontend/build"
