@@ -5,6 +5,10 @@ from django.contrib.auth import get_user_model # Importa la función para obtene
 from .models import Role # Importa tu modelo Role
 from .serializers import UserSerializer, RoleSerializer
 
+# La vista de tu sitio web (p\u00e1gina de inicio)
+def user_home(request):
+    return render(request, 'user/index.html')
+
 # Obtiene el modelo de usuario activo de Django
 User = get_user_model()
 
