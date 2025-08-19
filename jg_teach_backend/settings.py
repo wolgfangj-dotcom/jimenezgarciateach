@@ -81,9 +81,9 @@ MIDDLEWARE = [
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
-    "https://aulaformativa.netlify.app", #frontend
+    "https://aulasformativa.netlify.app", # frontend
     "https://jimenezgarciateach.firebaseapp.com",
-    "https://jimenagarciateach.onrender.com" # Agrega aquí la URL de tu app de Render
+    "https://jimenazgarciateach.onrender.com" # Agrega aquí la URL de tu app de Render
 ]
 
 CORS_ALLOW_CREDENTIALS = True
