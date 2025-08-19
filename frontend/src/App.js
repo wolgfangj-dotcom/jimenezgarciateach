@@ -12,7 +12,8 @@ const App = () => {
   const [loggedInUsername, setLoggedInUsername] = useState('');
 
   // The base URL for the Django API. Update this with your actual domain in production.
-  const API_BASE_URL = 'http://localhost:8000';
+  // CORRECCI\u00d3N: Usar la URL de Render para tu backend.
+  const API_BASE_URL = 'https://jimenezgarciateach.onrender.com';
 
   /**
    * Handles the login process by sending user credentials to the Django API.
@@ -37,7 +38,7 @@ const App = () => {
       if (!response.ok) {
         // Parse the error from the server
         const errorData = await response.json();
-        throw new Error(errorData.detail || 'Credenciales inválidas.');
+        throw new Error(errorData.detail || 'Credenciales inv\u00e1lidas.');
       }
 
       // Parse the successful response to get the token
@@ -49,7 +50,7 @@ const App = () => {
 
     } catch (err) {
       // Handle any errors that occurred during the fetch call
-      setError(err.message || 'Ocurrió un error inesperado.');
+      setError(err.message || 'Ocurri\u00f3 un error inesperado.');
       console.error('Error de login:', err);
     } finally {
       setLoading(false); // Hide the loading indicator
@@ -73,7 +74,7 @@ const App = () => {
             <LogIn className="w-12 h-12 text-indigo-600 animate-pulse" />
           </div>
           <h1 className="text-3xl font-extrabold text-center text-gray-800 mb-6">
-            Iniciar Sesión
+            Iniciar Sesi\u00f3n
           </h1>
           <form onSubmit={handleLogin}>
             <div className="mb-4">
@@ -91,7 +92,7 @@ const App = () => {
             </div>
             <div className="mb-6">
               <label className="block text-gray-700 text-sm font-semibold mb-2" htmlFor="password">
-                Contraseña
+                Contrase\u00f1a
               </label>
               <input
                 type="password"
@@ -120,7 +121,7 @@ const App = () => {
               ) : (
                 <>
                   <LogIn className="mr-2 h-5 w-5" />
-                  Iniciar Sesión
+                  Iniciar Sesi\u00f3n
                 </>
               )}
             </button>
@@ -135,10 +136,10 @@ const App = () => {
     <div className="min-h-screen bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center p-4">
       <div className="w-full max-w-2xl bg-white rounded-xl shadow-2xl p-8 text-center transform transition-all duration-300 hover:scale-105">
         <h1 className="text-4xl font-extrabold text-gray-800 mb-4 animate-fade-in">
-          ¡Bienvenido, {loggedInUsername}!
+          \u00a1Bienvenido, {loggedInUsername}!
         </h1>
         <p className="text-lg text-gray-600 mb-8">
-          Has iniciado sesión correctamente. Tu token es:
+          Has iniciado sesi\u00f3n correctamente. Tu token es:
         </p>
         <div className="bg-gray-100 p-4 rounded-lg break-all text-sm font-mono text-gray-800 shadow-inner">
           {token}
@@ -148,7 +149,7 @@ const App = () => {
           className="mt-8 bg-red-500 text-white font-bold py-3 px-6 rounded-lg shadow-lg hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-all duration-300 transform hover:scale-105 flex items-center justify-center mx-auto"
         >
           <LogOut className="mr-2 h-5 w-5" />
-          Cerrar Sesión
+          Cerrar Sesi\u00f3n
         </button>
       </div>
     </div>
